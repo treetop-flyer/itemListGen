@@ -6,7 +6,7 @@ namespace itemList
 {
     class ItemListMain
     {
-        public static string itemListDoc = Environment.CurrentDirectory;
+        //public static string itemListDoc = Environment.CurrentDirectory;
 
         public static void Main()
         {
@@ -22,21 +22,28 @@ namespace itemList
             Console.WriteLine("# Choose your item type: \n# 1.ETC \n# 2.ARMOR \n# 3.WEAPON");
             type = Console.ReadLine();
 
-            Console.WriteLine("Do you want to clear the file before contuning?");
-            string clearTheFile = Console.ReadLine();
+            //itemListDoc = Environment.CurrentDirectory;
+            string itemListDoc = Environment.CurrentDirectory + @"\item_list.txt";
 
-            itemListDoc = Environment.CurrentDirectory;
-
-            if (clearTheFile == "yes")
+            if(File.Exists(itemListDoc) == true)
             {
-                File.WriteAllText(itemListDoc + @"\item_list.txt", string.Empty);
+                if (new FileInfo(itemListDoc).Length > 0)
+                {
+                    Console.WriteLine("Do you want to clear the file before continuing?");
+                    string clearTheFile = Console.ReadLine();
+                    
+                    if (clearTheFile == "yes")
+                    {
+                        File.WriteAllText(itemListDoc, string.Empty);
+                    }
+                }
             }
 
             while (numbers[0] <= numbers[1])
             {
                 if (type == "WEAPON")
                 {
-                    using (StreamWriter outputFile = new StreamWriter(itemListDoc + @"\item_list.txt", true))
+                    using (StreamWriter outputFile = new StreamWriter(itemListDoc, true))
                     {
                         outputFile.WriteLine("{0} {1} \ticon/item/{2}.tga\t d:ymir work/item/weapon/{2}.gr2", numbers[0], type, numbers[0] / 10 * 10);
                         //outputFile.WriteLine($"{numbers[0]} {type}");
@@ -45,7 +52,7 @@ namespace itemList
                 }
                 else
                 {
-                    using (StreamWriter outputFile = new StreamWriter(itemListDoc + @"\item_list.txt", true))
+                    using (StreamWriter outputFile = new StreamWriter(itemListDoc, true))
                     {
                         outputFile.WriteLine("{0} {1} \ticon/item/{2}.tga", numbers[0], type, numbers[0] / 10 * 10);
                     }
